@@ -11,3 +11,18 @@
 import { injectCosmetics } from '@cliqz/adblocker-webextension-cosmetics';
 
 injectCosmetics(window);
+
+function check() {
+  console.log('PCN: sending message...');
+  chrome.runtime.sendMessage('test', (response) => {
+    if (chrome.runtime.lastError) {
+      console.log('PCN: error in handler...', chrome.runtime.lastError);
+      return;
+    }
+    console.log('PCN: got response...', response);
+  });
+}
+check();
+
+const HOUR = 60 * 60 * 1000;
+setInterval(check, HOUR);

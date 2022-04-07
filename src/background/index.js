@@ -141,7 +141,20 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   tabStats.delete(tabId);
 });
 
+const startedAt = new Date();
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg === 'test') {
+    const now = new Date();
+    const elapsedMs = now - startedAt;
+    const elapsedSec = elapsedMs / 1000;
+    const elapsedMin = elapsedSec / 60;
+    sendResponse({
+      now,
+      startedAt,
+      elapsedMin,
+    });
+    return false;
+  }
   if (msg.action === 'dnrUpdate') {
     updateAdblockerEngineStatuses();
     return false;
